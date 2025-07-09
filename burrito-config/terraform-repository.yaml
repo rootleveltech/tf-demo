@@ -1,0 +1,44 @@
+apiVersion: config.terraform.padok.cloud/v1alpha1
+kind: TerraformRepository
+metadata:
+  name: burrito-tag-test-repo
+  namespace: burrito-system
+spec:
+  repository:
+    url: "https://github.com/rootleveltech/tf-demo.git"
+    reference: "v1.0.0"  # This demonstrates tag support!
+  terraform:
+    version: "1.5.0"
+  gitProvider:
+    type: "github"
+    # Add your GitHub token or use GitHub App authentication
+---
+apiVersion: config.terraform.padok.cloud/v1alpha1
+kind: TerraformLayer
+metadata:
+  name: burrito-tag-test-layer
+  namespace: burrito-system
+spec:
+  repository: "burrito-tag-test-repo"
+  path: "."
+  terraform:
+    variables:
+      environment: "production"
+      project_name: "burrito-tag-demo"
+  remediationStrategy:
+    autoApply: false  # Require manual approval for applies
+---
+# Example using branch reference (traditional approach)
+apiVersion: config.terraform.padok.cloud/v1alpha1
+kind: TerraformRepository
+metadata:
+  name: burrito-branch-test-repo
+  namespace: burrito-system
+spec:
+  repository:
+    url: "https://github.com/rootleveltech/tf-demo.git"
+    reference: "main"  # Traditional branch reference
+  terraform:
+    version: "1.5.0"
+  gitProvider:
+    type: "github"
