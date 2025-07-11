@@ -1,0 +1,14 @@
+# Manual TerraformRun for Git Tag v2.0.0 Testing
+apiVersion: config.terraform.padok.cloud/v1alpha1
+kind: TerraformRun
+metadata:
+  name: manual-git-tag-v2-test
+  namespace: burrito-system
+  labels:
+    test-type: "manual-git-tag"
+    version: "v2.0.0"
+spec:
+  action: plan
+  layer:
+    name: burrito-tag-v2-layer
+    namespace: burrito-system

@@ -1,44 +1,110 @@
+# Git Tag Support Test Configuration for Helm-deployed Burrito
+# This tests our enhanced Git tag functionality
+
+---
+# Test 1: Repository for Git tag testing
 apiVersion: config.terraform.padok.cloud/v1alpha1
 kind: TerraformRepository
 metadata:
-  name: burrito-tag-test-repo
+  name: burrito-tag-v2-repo
   namespace: burrito-system
+  labels:
+    test-type: "git-tag"
+    version: "v2.0.0"
 spec:
   repository:
     url: "https://github.com/rootleveltech/tf-demo.git"
-    reference: "v1.0.0"  # This demonstrates tag support!
   terraform:
-    version: "1.5.0"
-  gitProvider:
-    type: "github"
-    # Add your GitHub token or use GitHub App authentication
+    enabled: true
+
 ---
+# Test 2: Layer using Git tag v2.0.0
 apiVersion: config.terraform.padok.cloud/v1alpha1
 kind: TerraformLayer
 metadata:
-  name: burrito-tag-test-layer
+  name: burrito-tag-v2-layer
   namespace: burrito-system
+  labels:
+    test-type: "git-tag"
+    environment: "test"
+    version: "v2.0.0"
 spec:
-  repository: "burrito-tag-test-repo"
+  repository:
+    name: "burrito-tag-v2-repo"
+    namespace: "burrito-system"
   path: "."
-  terraform:
-    variables:
-      environment: "production"
-      project_name: "burrito-tag-demo"
+  branch: "v2.0.0"  # This field now supports Git tags!
   remediationStrategy:
-    autoApply: false  # Require manual approval for applies
+    autoApply: false  # Manual approval for testing
+
 ---
-# Example using branch reference (traditional approach)
+# Test 3: Repository for Git tag v1.0.0 testing
 apiVersion: config.terraform.padok.cloud/v1alpha1
 kind: TerraformRepository
 metadata:
-  name: burrito-branch-test-repo
+  name: burrito-tag-v1-repo
   namespace: burrito-system
+  labels:
+    test-type: "git-tag"
+    version: "v1.0.0"
 spec:
   repository:
     url: "https://github.com/rootleveltech/tf-demo.git"
-    reference: "main"  # Traditional branch reference
   terraform:
-    version: "1.5.0"
-  gitProvider:
-    type: "github"
+    enabled: true
+
+---
+# Test 4: Layer using Git tag v1.0.0
+apiVersion: config.terraform.padok.cloud/v1alpha1
+kind: TerraformLayer
+metadata:
+  name: burrito-tag-v1-layer
+  namespace: burrito-system
+  labels:
+    test-type: "git-tag"
+    environment: "test"
+    version: "v1.0.0"
+spec:
+  repository:
+    name: "burrito-tag-v1-repo"
+    namespace: "burrito-system"
+  path: "."
+  branch: "v1.0.0"  # Using older Git tag
+  remediationStrategy:
+    autoApply: false
+
+---
+# Test 5: Repository for branch testing
+apiVersion: config.terraform.padok.cloud/v1alpha1
+kind: TerraformRepository
+metadata:
+  name: burrito-branch-main-repo
+  namespace: burrito-system
+  labels:
+    test-type: "branch"
+    branch: "main"
+spec:
+  repository:
+    url: "https://github.com/rootleveltech/tf-demo.git"
+  terraform:
+    enabled: true
+
+---
+# Test 6: Layer using branch reference
+apiVersion: config.terraform.padok.cloud/v1alpha1
+kind: TerraformLayer
+metadata:
+  name: burrito-branch-main-layer
+  namespace: burrito-system
+  labels:
+    test-type: "branch"
+    environment: "test"
+    branch: "main"
+spec:
+  repository:
+    name: "burrito-branch-main-repo"
+    namespace: "burrito-system"
+  path: "."
+  branch: "main"  # Traditional branch usage
+  remediationStrategy:
+    autoApply: false
