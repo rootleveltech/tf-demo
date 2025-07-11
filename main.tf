@@ -18,7 +18,7 @@ variable "environment" {
 variable "project_name" {
   description = "Project name"
   type        = string
-  default     = "burrito-test"
+  default     = "burrito-test-PR"
 }
 
 # Create a simple local file to demonstrate infrastructure
