@@ -18,7 +18,7 @@ variable "environment" {
 variable "project_name" {
   description = "Project name"
   type        = string
-  default     = "burrito-test"
+  default     = "burrito-test-PR"
 }
 
 # Create a simple local file to demonstrate infrastructure
@@ -43,3 +43,5 @@ output "environment" {
 output "project_name" {
   value = var.project_name
 }
+# Test change to trigger Burrito PR workflow
+# Additional test change
