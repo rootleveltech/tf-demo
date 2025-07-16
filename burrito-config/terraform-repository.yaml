@@ -23,5 +23,6 @@ spec:
     namespace: burrito-system
   path: "."
   branch: "v2.0.0"
+  allowPrOnTags: true
   remediationStrategy:
     autoApply: false
