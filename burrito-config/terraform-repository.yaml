@@ -22,6 +22,8 @@ spec:
     name: burrito-test-repo
     namespace: burrito-system
   path: "."
-  branch: "v2.0.0"
+  branch: "refs/tags/v2.0.0"
+  additionalTargetRefs:
+    - "main"
   remediationStrategy:
     autoApply: false

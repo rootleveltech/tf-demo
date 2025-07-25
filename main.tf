@@ -43,3 +43,8 @@ output "environment" {
 output "project_name" {
   value = var.project_name
 }
+
+# New output added for testing allowPrOnTags feature
+output "test_allowprontags" {
+  value = "Testing allowPrOnTags feature with tag v2.0.0"
+}
